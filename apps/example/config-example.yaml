@@ -1,0 +1,97 @@
+# Copy this file to config.yaml and fill in your real values.
+
+speaker:
+  userId: "your_xiaomi_user_id"
+  password: ""
+  did: "your_speaker_did"
+  passToken: "your_xiaomi_pass_token"
+
+ai:
+  baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  apiKey: "your_ai_api_key"
+  model: "deepseek-v3"
+  temperature: 0.7
+  maxTokens: 1800
+  systemPrompt: |
+    你是{{assistantName}},一个智能语音助手。
+    当前时间: {{datetime}} 星期{{dayOfWeek}}
+    服务地点: {{location}}
+    用户名称: {{userName}}
+
+    {{greeting}},请根据用户的问题给出简洁、准确的回答。
+    回答要口语化,适合通过语音播报。
+    不要使用 Markdown 格式,直接输出纯文本。
+
+promptContext:
+  enabled: true
+  location: "中国江苏徐州云龙区"
+  userName: "主人"
+  assistantName: "小爱助手"
+
+tts:
+  # xiaomi | volcano | doubao
+  provider: "xiaomi"
+  volcano:
+    endpoint: "https://openspeech.bytedance.com/api/v1/tts"
+    authMode: "api_key"
+    appId: "your_volcano_app_id"
+    apiKey: "your_volcano_api_key"
+    token: ""
+    cluster: "volcano_tts"
+    voiceType: "zh_female_vv_uranus_bigtts"
+    encoding: "mp3"
+    sampleRate: 24000
+    speedRatio: 1.0
+    volumeRatio: 1.0
+    pitchRatio: 1.0
+  cacheDir: "./tts-cache"
+  maxCacheAge: 1800000
+  # Required only when provider is volcano/doubao
+  publicBaseURL: "http://192.168.1.100:18082/api/audio"
+
+wakeup:
+  keywords:
+    - "请"
+    - "帮我"
+    - "告诉我"
+  enterAIMode:
+    - "我要玩豆包"
+    - "进入豆包模式"
+    - "开启豆包模式"
+  exitAIMode:
+    - "退出豆包"
+    - "关闭豆包模式"
+    - "结束豆包"
+  stopKeywords:
+    - "闭嘴"
+    - "别说了"
+    - "停下"
+    - "停止播放"
+    - "安静"
+  enterMessage: "好的，已经进入豆包模式。你后面唤醒小爱后可以直接说内容。"
+  exitMessage: "好的，已退出豆包模式。"
+
+story:
+  triggerPattern: "(西游记|故事|睡前|童话|寓言|神话|讲个|讲一个|讲一段|讲点)"
+  systemPrompt: |
+    【讲故事模式要求】请直接输出一个完整且连贯的故事片段，包含开头、发展和结尾。
+    正文尽量达到约900到1400字，不要在结尾使用'想听继续吗/要不要继续/下次再讲'这类吊起继续的问题句，改为自然收尾。
+    若是已有名著、神话、童话、寓言或经典故事（如西游记、白雪公主等），必须忠于原作主线与价值内核，
+    不得魔改人物设定、关键情节和结局，可只做儿童化、口语化复述。语言口语化、适合幼儿园小朋友。
+  firstChunkMaxChars: 160
+  normalChunkMaxChars: 280
+  pollIntervalMs: 700
+  waitTimeoutMs: 180000
+
+api:
+  enabled: true
+  host: "0.0.0.0"
+  port: 18082
+  token: "replace_with_a_strong_random_token"
+  maxBodyBytes: 16384
+  paths:
+    health: "/api/health"
+    speak: "/api/speak"
+    chat: "/api/chat"
+    play: "/api/play"
+    audioInfo: "/api/audio"

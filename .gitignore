@@ -37,3 +37,7 @@ yarn-error.log*
 .DS_Store
 *.pem
 .mi.json
+
+# Local runtime config (contains secrets)
+apps/example/config.yaml
+apps/example/tts-cache/

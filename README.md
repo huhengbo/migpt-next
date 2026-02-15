@@ -18,39 +18,59 @@ git clone https://github.com/idootop/migpt-next.git
 cd migpt-next/apps/example
 ```
 
-然后把 `config.js` 文件里的配置修改成你自己的。
-
-> [!TIP]
-> 完整的参数配置（如自定义大模型请求 headers 等） 👉 请到[此处](apps/next/README.md)查看。
-
-```js
-export default {
-  speaker: {
-    userId: "123456",
-    password: "xxxxxxxx",
-    did: "Xiaomi 智能音箱 Pro",
-  },
-  openai: {
-    model: "gpt-4.1-mini",
-    baseURL: "https://api.openai.com/v1",
-    apiKey: "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  },
-  prompt: {
-    system: "你是一个智能助手，请根据用户的问题给出回答。",
-  },
-  async onMessage(engine, { text }) {
-    if (text === "测试") {
-      return { text: "你好，很高兴认识你！" };
-    }
-  },
-};
-```
-
-修改好 `config.js` 配置文件之后，Docker 一键运行。
+先复制示例配置（`config.yaml` 已加入 git ignore，避免误提交密钥）：
 
 ```shell
-docker run -it --rm -v $(pwd)/config.js:/app/config.js idootop/migpt-next:latest
+cp config-example.yaml config.yaml
 ```
+
+然后把 `config.yaml` 文件里的配置修改成你自己的。
+
+> [!TIP]
+> `apps/example` 的完整文档请看 [apps/example/README.md](apps/example/README.md)。
+> 底层 `@mi-gpt/next` 参数说明请看 [apps/next/README.md](apps/next/README.md)。
+
+```yaml
+speaker:
+  userId: "123456"
+  did: "Xiaomi 智能音箱 Pro"
+  passToken: "xxxxxxxx"
+
+ai:
+  model: "deepseek-v3"
+  baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  apiKey: "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+tts:
+  # 可选: xiaomi | volcano | doubao
+  provider: "xiaomi"
+```
+
+修改好 `config.yaml` 后，使用 Docker Compose 部署（推荐）：
+
+```shell
+# 在 apps/example 目录
+docker compose up -d --build
+```
+
+常用命令：
+
+```shell
+docker compose ps
+docker compose logs -f migpt-next
+docker compose restart
+docker compose down
+```
+
+如果你希望直接用 Dockerfile 手动构建镜像，也可以：
+
+```shell
+# 在 apps/example 目录
+docker build -t migpt-next:local .
+```
+
+> [!TIP]
+> `apps/example` 目录已内置 `docker-compose.yml` 和 `Dockerfile`，默认挂载 `config.yaml` 与 `tts-cache`。
 
 ## Node.js 运行
 
@@ -112,7 +132,7 @@ main();
 
 ### Q：控制台能看到 AI 的回答文字，但是播放的还是小爱自己的回答？
 
-`MiGPT-Next` 移除了 `ttsCommand` 参数，如果你是小爱音箱 Play（增强版）等机型，升级之后可能会出现 TTS 异常（听不到大模型的回复），你可以修改 `config.js` 文件里的 `onMessage` 函数来修复此问题：
+`MiGPT-Next` 移除了 `ttsCommand` 参数，如果你是小爱音箱 Play（增强版）等机型，升级之后可能会出现 TTS 异常（听不到大模型的回复），你可以在 `apps/example/app.js` 里的 `onMessage` 函数中改成 MiOT 直出文本来规避：
 
 ```js
 /**
@@ -131,6 +151,11 @@ async onMessage(engine, msg) {
   }
 }
 ```
+
+## TODO
+
+- 用户画像 + 场景模板（儿童模式/老人模式/夜间模式）
+- 按时段自动切换 Prompt 与播报策略
 
 ## 免责声明
 

@@ -1,8 +1,9 @@
-# 排除全部文件
+# exclude all
 **/*
 
-# 只保留构建相关的文件
+# runtime files
 !app.js
-!config.js
+!config.yaml
+!lib/**
 !package.json
 !package-lock.json

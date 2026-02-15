@@ -30,21 +30,14 @@ importers:
   apps/example:
     dependencies:
       '@mi-gpt/next':
-        specifier: 1.2.1
-        version: 1.2.1
-    devDependencies:
-      '@mi-gpt/config':
-        specifier: 1.1.0
-        version: 1.1.0
-      '@types/node':
-        specifier: ^22.14.0
-        version: 22.14.0
-      tsx:
-        specifier: ^4.19.3
-        version: 4.19.3
-      typescript:
-        specifier: ^5.8.2
-        version: 5.8.2
+        specifier: ^1.3.2
+        version: 1.3.2
+      '@types/js-yaml':
+        specifier: ^4.0.9
+        version: 4.0.9
+      js-yaml:
+        specifier: ^4.1.1
+        version: 4.1.1
 
   apps/next:
     dependencies:
@@ -513,20 +506,16 @@ packages:
     resolution: {integrity: sha512-C5b498nGC1ZAg6/Nl5XWneOwnUQ9CgK+0wCEqNDHYkj96YWqpbW3uGS6ubgNncpVMg/uXMoc55l1hsUF0lz+oQ==}
     engines: {node: '>=16'}
 
-  '@mi-gpt/config@1.1.0':
-    resolution: {integrity: sha512-o24iFINsoDuvInnMpfBQ4zCuTObbdodjXyizXmxl3yyYOMjmIAXizO/1UZ9/dv3UVTov3sjL09aCGuBeIVhvtA==}
-    engines: {node: '>=16'}
-
   '@mi-gpt/engine@1.2.1':
     resolution: {integrity: sha512-EmBVS/l1xj8N54ZHRmYcV0jl9vh0QBPsyMdjwmS5h9+cdG40ItUq+shVg9ZHJrwoixKIiagYJ4lAjw+yUQ1DUQ==}
     engines: {node: '>=16'}
 
-  '@mi-gpt/miot@1.1.1':
-    resolution: {integrity: sha512-KfpDeiui/gxEOO4mJ/apmedTyArbWr6a0tlCOlETlqk7lRGshhTeorgyA07Do1QDGWWkJ78WzeihuAZEWo8RRw==}
+  '@mi-gpt/miot@1.2.2':
+    resolution: {integrity: sha512-HM4jkfuorGdhSMSnzeaNtDh3yy5Njdo6FNJD3oqYZ4PEinJ41smvnADtnp2g/tM817owuWrm4vJDU6uHgeMAgQ==}
     engines: {node: '>=16'}
 
-  '@mi-gpt/next@1.2.1':
-    resolution: {integrity: sha512-x2Ij8oJy5ZsGRsvZTRLP7k8pFwUKZzqzxPgd8XTLKgAMYpFi70x2NfQ0OMOeXor8pkOFjJq4pJ2zTmRCMa3dzg==}
+  '@mi-gpt/next@1.3.2':
+    resolution: {integrity: sha512-xd2dClSzpCpQfjlJ9P1w1DNHI3v/19GgOUGbhuh3ICbctviMoGdLPvHJydk5mqkTsCjidm/P4wfhB4AAJRNccg==}
     engines: {node: '>=16'}
 
   '@mi-gpt/openai@1.1.1':
@@ -663,6 +652,9 @@ packages:
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
 
+  '@types/js-yaml@4.0.9':
+    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
+
   '@types/node-fetch@2.6.12':
     resolution: {integrity: sha512-8nneRWKCg3rMtF69nLQJnOYUcbafYeFSjqkw3jCRLsqkWFlHaoQrr5mXmofFGOx3DKn7UfmBMyov8ySvLRVldA==}
 
@@ -715,6 +707,9 @@ packages:
 
   argparse@1.0.10:
     resolution: {integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==}
+
+  argparse@2.0.1:
+    resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
   array-union@2.1.0:
     resolution: {integrity: sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==}
@@ -976,6 +971,7 @@ packages:
 
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   globby@11.1.0:
@@ -1064,6 +1060,10 @@ packages:
 
   js-yaml@3.14.1:
     resolution: {integrity: sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==}
+    hasBin: true
+
+  js-yaml@4.1.1:
+    resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
 
   jsbn@1.1.0:
@@ -1199,6 +1199,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
@@ -1417,6 +1418,7 @@ packages:
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
 
   spawndamnit@3.0.1:
     resolution: {integrity: sha512-MmnduQUuHCoFckZoWnXsTg7JaiLBJrKFj9UI2MbRPGaJeVpsLcVBu6P/IGZovziM/YBsellCmsprgNA+w0CzVg==}
@@ -1907,8 +1909,6 @@ snapshots:
       - ws
       - zod
 
-  '@mi-gpt/config@1.1.0': {}
-
   '@mi-gpt/engine@1.2.1':
     dependencies:
       '@mi-gpt/chat': 1.1.1
@@ -1921,7 +1921,7 @@ snapshots:
       - ws
       - zod
 
-  '@mi-gpt/miot@1.1.1':
+  '@mi-gpt/miot@1.2.2':
     dependencies:
       '@mi-gpt/utils': 1.1.1
       axios: 1.8.4
@@ -1929,11 +1929,11 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@mi-gpt/next@1.2.1':
+  '@mi-gpt/next@1.3.2':
     dependencies:
       '@mi-gpt/chat': 1.1.1
       '@mi-gpt/engine': 1.2.1
-      '@mi-gpt/miot': 1.1.1
+      '@mi-gpt/miot': 1.2.2
       '@mi-gpt/utils': 1.1.1
     transitivePeerDependencies:
       - debug
@@ -2038,6 +2038,8 @@ snapshots:
 
   '@types/estree@1.0.7': {}
 
+  '@types/js-yaml@4.0.9': {}
+
   '@types/node-fetch@2.6.12':
     dependencies:
       '@types/node': 22.14.0
@@ -2082,6 +2084,8 @@ snapshots:
   argparse@1.0.10:
     dependencies:
       sprintf-js: 1.0.3
+
+  argparse@2.0.1: {}
 
   array-union@2.1.0: {}
 
@@ -2343,6 +2347,7 @@ snapshots:
   get-tsconfig@4.10.0:
     dependencies:
       resolve-pkg-maps: 1.0.0
+    optional: true
 
   get-uri@6.0.4:
     dependencies:
@@ -2449,6 +2454,10 @@ snapshots:
     dependencies:
       argparse: 1.0.10
       esprima: 4.0.1
+
+  js-yaml@4.1.1:
+    dependencies:
+      argparse: 2.0.1
 
   jsbn@1.1.0: {}
 
@@ -2679,7 +2688,8 @@ snapshots:
 
   resolve-from@5.0.0: {}
 
-  resolve-pkg-maps@1.0.0: {}
+  resolve-pkg-maps@1.0.0:
+    optional: true
 
   reusify@1.1.0: {}
 
@@ -2859,6 +2869,7 @@ snapshots:
       get-tsconfig: 4.10.0
     optionalDependencies:
       fsevents: 2.3.3
+    optional: true
 
   turbo-darwin-64@2.5.0:
     optional: true
