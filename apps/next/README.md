@@ -1,6 +1,13 @@
-# MiGPT-Next
+# @mi-gpt/next
+
+[![npm version](https://badge.fury.io/js/@mi-gpt%2Fnext.svg)](https://www.npmjs.com/package/@mi-gpt/next)
 
 让小爱音箱「听你的」，解锁无限可能。
+
+> [!TIP]
+> 如果你只想快速部署（不写代码），推荐使用 [apps/example](../example/README.md)，通过 YAML 配置 + Docker Compose 一键运行，内置可插拔 TTS、HTTP API 和故事模式。
+
+本文档面向需要**代码集成** `@mi-gpt/next` SDK 的开发者。
 
 ## 快速开始
 
@@ -19,12 +26,13 @@ async function main() {
   await MiGPT.start({
     speaker: {
       userId: "123456",
-      password: "xxxxxxxx",
       did: "Xiaomi 智能音箱 Pro",
+      // 二选一：passToken（推荐）或 password
+      passToken: "xxxxxxxx",
     },
     openai: {
-      model: "gpt-4o-mini",
-      baseURL: "https://api.openai.com/v1",
+      model: "deepseek-v3",
+      baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
       apiKey: "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     },
     prompt: {
@@ -57,23 +65,32 @@ await MiGPT.start({
      */
     userId: "123456",
     /**
-     * 小米账号登录密码
-     */
-    password: "xxxxxxxx",
-    /**
      * 小爱音箱在米家中设置的名称
      */
     did: "Xiaomi 智能音箱 Pro",
+    /**
+     * 免密登录 Token（推荐）
+     *
+     * 使用 passToken 可以避免触发小米安全验证
+     */
+    passToken: "xxxxxxxx",
+    /**
+     * 小米账号登录密码（passToken 和 password 二选一）
+     */
+    // password: "xxxxxxxx",
   },
 });
 ```
+
+> [!TIP]
+> 推荐使用 `passToken` 方式登录，可以避免频繁触发小米账号安全验证。
 
 ### 2. 配置大语言模型（LLM）
 
 ```typescript
 await MiGPT.start({
   openai: {
-    model: "gpt-4o-mini",
+    model: "deepseek-v3",
     apiKey: "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     /**
      * 你的大模型服务提供商的接口地址
@@ -85,7 +102,7 @@ await MiGPT.start({
      * - ❌ https://api.openai.com/v1/（最后多了一个 /）
      * - ❌ https://api.openai.com/v1/chat/completions（不需要加 /chat/completions）
      */
-    baseURL: "https://api.openai.com/v1",
+    baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
   },
   prompt: {
     /**
@@ -106,7 +123,7 @@ await MiGPT.start({
 await MiGPT.start({
   /**
    * 默认只会处理以下关键词开头的消息，你也可以自定义：
-   * 
+   *
    * - 请问地球为什么是圆的？
    * - 你知道世界上跑的最快的动物是什么吗？
    */
@@ -214,6 +231,16 @@ await MiGPT.start({
 });
 ```
 
+## 版本历史
+
+详见 [CHANGELOG.md](CHANGELOG.md)。
+
+当前版本：**v1.3.2**
+
+- v1.3.0：支持 `passToken` 登录、导出 `MiGPTConfig` 类型
+- v1.2.0：支持 CJS
+- v1.1.0：初始发布
+
 ## 免责声明
 
 1. **适用范围**
@@ -226,3 +253,5 @@ await MiGPT.start({
 ## License
 
 MIT License © 2024-PRESENT [Del Wang](https://del.wang)
+
+Fork maintained by [huhengbo](https://github.com/huhengbo/migpt-next)
