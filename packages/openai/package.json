@@ -41,10 +41,10 @@
     "email": "hello@xbox.work",
     "url": "https://github.com/idootop"
   },
-  "homepage": "https://github.com/idootop/migpt-next",
-  "bugs": "https://github.com/idootop/migpt-next/issues",
+  "homepage": "https://github.com/huhengbo/migpt-next",
+  "bugs": "https://github.com/huhengbo/migpt-next/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/idootop/migpt-next.git"
+    "url": "git+https://github.com/huhengbo/migpt-next.git"
   }
 }

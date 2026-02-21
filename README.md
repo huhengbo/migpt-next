@@ -1,40 +1,43 @@
 # MiGPT-Next
 
-`MiGPT-Next` 是基于 [MiGPT](https://github.com/idootop/mi-gpt) 的升级版本，支持**​ 自定义消息回复 ​**。
+`MiGPT-Next` 是基于 [MiGPT](https://github.com/idootop/mi-gpt) 的升级版本，支持**自定义消息回复**、**可插拔 TTS**（小米/火山/豆包）、**HTTP API** 和**故事模式**。
 
 让人人都可以轻松定制自己的小爱音箱回复，让小爱音箱「听你的」。
 
-## Docker 运行
+## 主要特性
 
-[![Docker Image Version](https://img.shields.io/docker/v/idootop/migpt-next?color=%23086DCD&label=docker%20image)](https://hub.docker.com/r/idootop/migpt-next)
+- 🎯 **YAML 配置驱动** — 一个 `config.yaml` 搞定所有参数，无需改代码
+- 🗣️ **可插拔 TTS** — 支持小米默认播报 / 火山引擎（豆包）TTS，自由切换
+- 🌐 **HTTP API** — 内置 REST API（speak / chat / play），可与智能家居/自动化联动
+- 📖 **故事模式** — 自动分段播放长文本，适合睡前故事场景
+- 🤖 **持续对话模式** — 进入/退出 AI 模式，连续多轮对话
+- 🔧 **自定义消息回复** — 通过 `onMessage` 拦截并自定义任意回复逻辑
 
-首先，克隆仓库代码到本地。
+## Docker 运行（推荐）
+
+首先，克隆仓库代码到本地：
 
 ```shell
 # 克隆代码
-git clone https://github.com/idootop/migpt-next.git
+git clone https://github.com/huhengbo/migpt-next.git
 
 # 进入配置文件所在目录
 cd migpt-next/apps/example
 ```
 
-先复制示例配置（`config.yaml` 已加入 git ignore，避免误提交密钥）：
+复制示例配置（`config.yaml` 已加入 git ignore，避免误提交密钥）：
 
 ```shell
 cp config-example.yaml config.yaml
 ```
 
-然后把 `config.yaml` 文件里的配置修改成你自己的。
-
-> [!TIP]
-> `apps/example` 的完整文档请看 [apps/example/README.md](apps/example/README.md)。
-> 底层 `@mi-gpt/next` 参数说明请看 [apps/next/README.md](apps/next/README.md)。
+编辑 `config.yaml`，填入你的信息：
 
 ```yaml
 speaker:
-  userId: "123456"
-  did: "Xiaomi 智能音箱 Pro"
-  passToken: "xxxxxxxx"
+  userId: "你的小米ID"
+  did: "音箱DID"
+  passToken: "你的Token"
 
 ai:
   model: "deepseek-v3"
@@ -46,7 +49,11 @@ tts:
   provider: "xiaomi"
 ```
 
-修改好 `config.yaml` 后，使用 Docker Compose 部署（推荐）：
+> [!TIP]
+> 完整配置参数（TTS、唤醒词、故事模式、HTTP API 等）请看 [apps/example/README.md](apps/example/README.md)。
+> 底层 `@mi-gpt/next` SDK 参数说明请看 [apps/next/README.md](apps/next/README.md)。
+
+使用 Docker Compose 部署：
 
 ```shell
 # 在 apps/example 目录
@@ -62,21 +69,17 @@ docker compose restart
 docker compose down
 ```
 
-如果你希望直接用 Dockerfile 手动构建镜像，也可以：
+验证服务是否正常：
 
 ```shell
-# 在 apps/example 目录
-docker build -t migpt-next:local .
+curl http://localhost:18082/api/health
 ```
 
-> [!TIP]
-> `apps/example` 目录已内置 `docker-compose.yml` 和 `Dockerfile`，默认挂载 `config.yaml` 与 `tts-cache`。
-
-## Node.js 运行
+## Node.js SDK 运行
 
 [![npm version](https://badge.fury.io/js/@mi-gpt%2Fnext.svg)](https://www.npmjs.com/package/@mi-gpt/next)
 
-首先，在你的项目里安装 `@mi-gpt/next` 依赖
+如果你希望用代码集成，可以直接安装 `@mi-gpt/next`：
 
 ```shell
 pnpm install @mi-gpt/next
@@ -112,11 +115,32 @@ async function main() {
 main();
 ```
 
+## HTTP API
+
+部署后内置以下 REST 接口（详见 [apps/example/README.md](apps/example/README.md#http-api-接口)）：
+
+| 接口 | 方法 | 说明 |
+|------|------|------|
+| `/api/health` | GET | 健康检查（无需鉴权） |
+| `/api/speak` | POST | 让音箱说话 |
+| `/api/chat` | POST | AI 对话并播报 |
+| `/api/play` | POST | 播放指定音频 |
+
+示例：
+
+```shell
+# 让音箱说一句话
+curl -X POST http://localhost:18082/api/speak \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Content-Type: application/json" \
+  -d '{"text":"你好，这是一个测试"}'
+```
+
 ## 常见问题
 
 ### Q：一直提示登录失败，无法正常运行？
 
-一般是因为登录小米账号时触发了安全验证，可以参考此处解决：https://github.com/idootop/migpt-next/issues/4
+一般是因为登录小米账号时触发了安全验证，可以参考此处解决：https://github.com/huhengbo/migpt-next/issues/4
 
 ### Q：小爱同学总是抢话，能不能在 AI 回答的时候让小爱同学闭嘴？
 
@@ -135,18 +159,12 @@ main();
 `MiGPT-Next` 移除了 `ttsCommand` 参数，如果你是小爱音箱 Play（增强版）等机型，升级之后可能会出现 TTS 异常（听不到大模型的回复），你可以在 `apps/example/app.js` 里的 `onMessage` 函数中改成 MiOT 直出文本来规避：
 
 ```js
-/**
- * 自定义消息回复
- */
 async onMessage(engine, msg) {
   if (engine.config.callAIKeywords.some((e) => msg.text.startsWith(e))) {
-    // 打断原来小爱的回复
     await engine.speaker.abortXiaoAI();
-    // 调用 AI 回答
     const { text } = await engine.askAI(msg);
     console.log(`🔊 ${text}`);
-    // TTS 播放文字
-    await engine.MiOT.doAction(5, 1, text); // 👈 注意把 5,1 换成你的设备 ttsCommand
+    await engine.MiOT.doAction(5, 1, text); // 把 5,1 换成你的设备 ttsCommand
     return { handled: true };
   }
 }
@@ -169,3 +187,5 @@ async onMessage(engine, msg) {
 ## License
 
 MIT License © 2024-PRESENT [Del Wang](https://del.wang)
+
+Fork maintained by [huhengbo](https://github.com/huhengbo/migpt-next)
