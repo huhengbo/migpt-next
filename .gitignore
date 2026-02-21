@@ -41,3 +41,6 @@ yarn-error.log*
 # Local runtime config (contains secrets)
 apps/example/config.yaml
 apps/example/tts-cache/
+
+# OpenClaw agents (contains secrets)
+agents/
